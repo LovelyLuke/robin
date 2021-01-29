@@ -1,25 +1,22 @@
 #include <Graphics.hpp>
+#include <vector>
 #include "Body.hpp"
 #include "Coords.hpp"
 
 namespace Robin
 {
-	class Window
-	{
-	public:
-		Window();
-		virtual ~Window();
+    
+    
+    std::vector<Robin::Body> bodies;
 
-		
-	};
-
-	class Body;
-	class Coords2D;
+    void AddBodyToRenderQueue(Body* body) {
+        Body bodyObject = Body{ body->name };
+        bodies.push_back(bodyObject);
+    }
+    
 
     void Init(int screenSizeX, int screenSizeY) {
         sf::RenderWindow window(sf::VideoMode(screenSizeX, screenSizeY), "Robin Engine v.0.0.1");
-        sf::CircleShape shape(100.f);
-        shape.setFillColor(sf::Color::Green);
 
         while (window.isOpen())
         {
@@ -31,9 +28,13 @@ namespace Robin
             }
 
             window.clear();
-            window.draw(shape);
+            for (int bodyIndex = 0; bodyIndex < bodies.size(); bodyIndex++) {
+                bodies[bodyIndex].Init();
+            }
             window.display();
         }
     }
+
+    
 
 }
